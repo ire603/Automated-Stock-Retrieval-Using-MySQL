@@ -154,4 +154,32 @@ public class Main {
             e.printStackTrace();
         }
     }
+    private static void insertingDataThatsNotThere(MysqlConnect mysqlConnect, IEXTradingClient client) {
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = mysqlConnect.connect().prepareStatement(
+                    "select * from symbols"
+            );
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Thread.sleep(0);
+                System.out.printf("%n%s: ", resultSet.getString(1));
+                ps = mysqlConnect.connect().prepareStatement(
+                "SELECT * FROM companyData WHERE companyData.symbols = ?"
+                );
+                ps.setString(1, resultSet.getString(1));
+                ResultSet resultSet1 = ps.executeQuery();
+                if (!resultSet1.next()) {
+                    Quote quote = client.executeRequest(new QuoteRequestHandler().withSymbol(resultSet1.getString(1)).build());
+                    PreparedStatement ps1 = connect().prepareStatement(
+                        "INSERT INTO companyData VALUES (?....) "
+                    );
+                    ps1.setString(1, quotes.getSymbol());
+                    /...../
+                    System.out.printf("%n New Symbol and Data Entered %s: ", quotes.getSymbol());
+                } else {
+                    System.out.printf("%n No Symbol and Data Entered");   
+                }
+            
+    }
 }
