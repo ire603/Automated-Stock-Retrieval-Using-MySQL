@@ -21,6 +21,7 @@ public class Main {
     public static void main(String[] args) {
         final IEXTradingClient iexTradingClient = IEXTradingClient.create();
         MysqlConnect mysqlConnect = new MysqlConnect();
+        // Change variable i from 0 to 7 for Desired Step 
         int i = 0;
         switch (i) {
             case 0:
